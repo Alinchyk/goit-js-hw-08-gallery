@@ -151,7 +151,7 @@ body {
   margin-right: 25px;
   width: 60px;
   height: 60px;
-  background-image: url("/images/left.svg");
+  background-image: url("../images/left.svg");
   background-position: 20% 50%;
   background-repeat: no-repeat;
   background-size: 70%;
@@ -168,7 +168,7 @@ body {
   margin-left: 25px;
   width: 60px;
   height: 60px;
-  background-image: url("/images/right.svg");
+  background-image: url("../images/right.svg");
   background-position: 80% 50%;
   background-repeat: no-repeat;
   background-size: 70%;
