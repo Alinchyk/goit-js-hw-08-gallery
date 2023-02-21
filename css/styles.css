@@ -23,7 +23,7 @@ body {
     sans-serif;
   background-color: #fff;
   color: #212121;
-  background: url(/images/фон.jpg);
+  background: url(../images/фон.jpg);
   background-size: cover;
   overflow: hidden;
 }
