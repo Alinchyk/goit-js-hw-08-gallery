@@ -10,7 +10,6 @@ const refs = {
   btnRight: document.querySelector(".lightbox-button-right"),
 };
 
-// створення розмітки галереї
 const createGalery = function (images) {
   return images
     .map(
@@ -22,48 +21,31 @@ const createGalery = function (images) {
     )
     .join("");
 };
-const listGalery = createGalery(imgGalery);
-refs.list.insertAdjacentHTML("beforeend", listGalery);
 
-// модальне вікно
 const onOpenModal = function (e) {
+  e.preventDefault();
+
   if (e.target.nodeName !== "IMG") {
     return;
   }
-  e.preventDefault();
-  refs.backdrop.classList.add("is-open"); // відкриття модального вікна
-  refs.img.src = e.target.dataset.source; // підміна зображення
+  refs.backdrop.classList.add("is-open");
+  refs.img.src = e.target.dataset.source;
   refs.img.alt = e.target.alt;
 
-  window.addEventListener("keydown", onEscKeyPress);
+  window.addEventListener("keydown", onCloseModal);
   window.addEventListener("keydown", onArrowPress);
 };
-refs.list.addEventListener("click", onOpenModal);
 
-// закриття модального вікна кнопкою
-const onCloseModal = function () {
-  refs.backdrop.classList.remove("is-open");
-  refs.img.src = ""; // Очистка значення атрибуту src елементу img.lightbox__image.
-  refs.img.alt = "";
-};
-refs.btn.addEventListener("click", onCloseModal);
-
-// Закриття модального вікна ESC
-const onEscKeyPress = function (e) {
-  if (e.code === "Escape") {
-    onCloseModal();
+const onCloseModal = function (e) {
+  if (e.code === "Escape" || e.currentTarget === e.target || e.target === refs.btn) {
+    refs.backdrop.classList.remove("is-open");
+    refs.img.src = "";
+    refs.img.alt = "";
+    window.removeEventListener("keydown", onCloseModal);
+    window.removeEventListener("keydown", onArrowPress);
   }
 };
 
-// Закриття модального вікна по кліку на overlay
-const onOverlayClick = function (e) {
-  if (e.currentTarget === e.target) {
-    onCloseModal();
-  }
-};
-refs.overley.addEventListener("click", onOverlayClick);
-
-// слайдер
 let currentIndex = 0;
 const srcArray = imgGalery.map(src => src.original);
 
@@ -84,5 +66,9 @@ const onArrowPress = function (e) {
   }
 };
 
+refs.list.insertAdjacentHTML("beforeend", createGalery(imgGalery));
+refs.list.addEventListener("click", onOpenModal);
+refs.btn.addEventListener("click", onCloseModal);
+refs.overley.addEventListener("click", onCloseModal);
 refs.btnLeft.addEventListener("click", onArrowPress);
 refs.btnRight.addEventListener("click", onArrowPress);
